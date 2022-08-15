@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>AUI快速完成布局</title>
+        <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../css/pv.css" />
+        <style type="text/css">
+
+        </style>
+    </head>
+    <body>
+        <div class="container" >
+
+        </div>
+
+
+
+    </body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+
+
+    apiready = function() {
+        var pdfReader = api.require('pdfReader');
+        var url='http://nep.nepviewer.com/pv_manager/files/' + api.pageParam.file;
+        // alert(url)
+        pdfReader.openView({
+            rect:{
+              x:0,
+              y:0,
+              w:'auto',
+              h:'auto'
+            },
+            path: url,
+            fixedOn:api.frameName,
+            fixed:true
+        },function(ret){
+            // alert(JSON.stringify(ret));
+        });
+    };
+
+</script>

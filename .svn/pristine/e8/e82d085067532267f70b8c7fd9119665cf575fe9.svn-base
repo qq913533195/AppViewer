@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>AUI快速完成布局</title>
+        <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../css/pv.css" />
+        <style type="text/css">
+
+        </style>
+    </head>
+    <body>
+        <div class="container" >
+            wwww
+        </div>
+
+
+
+    </body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+
+    var url;
+    apiready = function() {
+        var systemType = api.systemType;
+        // if(systemType == 'ios')
+        // {
+        //     api.openApp({
+        //         iosUrl: 'http://nep.nepviewer.com/pv_manager/autologin.php?token=' + $api.getStorage('token')
+        //     });
+        // }
+        api.openApp({
+            androidPkg: 'android.intent.action.VIEW',
+            // mimeType: 'text/html',
+            url: 'http://www.baidu.com'
+        },function(ret,err){
+            var msg = JSON.stringify(ret);
+            api.alert({
+                title: 'openApp',
+                msg: msg,
+                buttons: ['确定']
+            });
+        });
+
+    };
+
+</script>

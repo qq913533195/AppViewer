@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="./css/aui.css" />
+    <style type="text/css">
+        .header {
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- <header class="aui-bar aui-bar-nav aui-text-center header" id="header">
+        <h2 class="aui-title"></h2>
+         <a class="aui-pull-right aui-btn "  tapmode>
+            <i class="aui-iconfont aui-icon-back"></i>
+         </a>
+    </header> -->
+
+</body>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/aui-toast.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript">
+    var toast = new auiToast();
+
+    apiready = function(){
+        api.setStatusBarStyle({
+            style: 'light'
+        });
+        api.parseTapmode();
+        // alert(api.winName);
+        init();
+        initLang(function(ret, err){
+
+        });
+
+        api.setScreenOrientation({
+             orientation: 'auto'
+        });
+
+        isLogin();
+    };
+
+    function isLogin() {
+
+        var token = $api.getStorage('token');
+
+        if (token == null || token == "undefined" || token == "" ||token == undefined) {
+            api.openWin({
+                name: 'login_win',
+                url: 'widget://html/login_win.html',
+                slidBackEnabled:false
+            });
+        } else {
+            api.openWin({
+                name: 'index_win',
+                url: 'widget://html/index_win.html',
+                slidBackEnabled:false
+            });
+        }
+
+
+        setTimeout(function() {
+            closeWin();
+        }, 1000);
+    }
+
+
+
+</script>
+</html>

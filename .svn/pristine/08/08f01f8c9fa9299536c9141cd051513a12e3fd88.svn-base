@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+
+    <style type="text/css" >
+       .iconfont {
+
+          /* font-size: 16px; */
+          font-size: 1.2rem;
+
+        }
+    </style>
+</head>
+<body>
+   <header class="aui-bar aui-bar-nav aui-text-center header" id="aui-header">
+        <h2 class="aui-title"></h2>
+         <a class="aui-pull-right aui-btn "  tapmode onclick="logout()">
+            <!-- <i class="aui-iconfont aui-icon-back"></i> -->
+         </a>
+    </header>
+
+     <footer class="aui-bar aui-bar-tab aui-border-t" id="footer">
+        <div class="aui-bar-tab-item " tapmode>
+            <i class="icon iconfont">&#xe665;</i>
+            <div class="aui-bar-tab-label" id="label_home" >Home</div>
+        </div>
+        <div class="aui-bar-tab-item  aui-active" tapmode>
+            <i class="icon iconfont">&#xe63c;</i>
+            <div class="aui-bar-tab-label" id="label_pvlist">Pv List</div>
+        </div>
+        <div class="aui-bar-tab-item " tapmode id='www'>
+            <i class="icon iconfont">&#xe642;</i>
+            <div class="aui-bar-tab-label" id="label_www">WWW</div>
+        </div>
+        <div class="aui-bar-tab-item " tapmode id='site'>
+            <!-- <i class="icon iconfont"><svg t="1658309406452" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1043" width="23" height="23"><path d="M943.9 332l-129-145.2a61.2 61.2 0 0 0-45.6-20.5H256.7a61.3 61.3 0 0 0-47.7 22.9L78 353a61.1 61.1 0 0 0-13.3 38.1v405.6a61 61 0 0 0 61 61h772.6a61 61 0 0 0 61-61V372.5a60.7 60.7 0 0 0-15.4-40.5zM256.7 227.3h512.6l108.4 122H159.1z m641.6 569.4H125.7V410.3h772.6z" p-id="1044"></path><path d="M298.5 715.3a30.5 30.5 0 0 0 30.5-30.5V522.2a30.5 30.5 0 0 0-61 0v162.6a30.5 30.5 0 0 0 30.5 30.5zM512 715.3a30.5 30.5 0 0 0 30.5-30.5V522.2a30.5 30.5 0 1 0-61 0v162.6a30.5 30.5 0 0 0 30.5 30.5zM725.5 715.3a30.5 30.5 0 0 0 30.5-30.5V522.2a30.5 30.5 0 0 0-61 0v162.6a30.5 30.5 0 0 0 30.5 30.5z" p-id="1045"></path></svg></i> -->
+            <i class="icon iconfont">
+                <!-- <svg t="1658309505619" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1185" width="23" height="23"><path d="M850.5 894.2h-32.7V129.8a65.6 65.6 0 0 0-65.6-65.5H271.8a65.6 65.6 0 0 0-65.6 65.5v764.4h-32.7a32.8 32.8 0 1 0 0 65.5h677a32.8 32.8 0 1 0 0-65.5z m-382.2 0v-131h87.4v131z m152.9 0V718.8a21.2 21.2 0 0 0-21.2-21.2H424a21.2 21.2 0 0 0-21.2 21.2v175.4h-131V129.8h480.4v764.4z" p-id="1186"></path><path d="M402.8 195.3a87.4 87.4 0 1 0 87.4 87.4 87.4 87.4 0 0 0-87.4-87.4z m0 120.1a32.8 32.8 0 1 1 32.8-32.7 32.8 32.8 0 0 1-32.8 32.7zM621.2 195.3a87.4 87.4 0 1 0 87.4 87.4 87.4 87.4 0 0 0-87.4-87.4z m0 120.1a32.8 32.8 0 1 1 32.8-32.7 32.8 32.8 0 0 1-32.8 32.7zM402.8 413.7a87.4 87.4 0 1 0 87.4 87.4 87.4 87.4 0 0 0-87.4-87.4z m0 120.1a32.8 32.8 0 1 1 32.8-32.7 32.8 32.8 0 0 1-32.8 32.7zM621.2 413.7a87.4 87.4 0 1 0 87.4 87.4 87.4 87.4 0 0 0-87.4-87.4z m0 120.1a32.8 32.8 0 1 1 32.8-32.7 32.8 32.8 0 0 1-32.8 32.7z" p-id="1187"></path></svg>             -->
+                <!-- <svg t="1658309581883" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1327" width="23" height="23"><path d="M862.3 96H161.7A65.7 65.7 0 0 0 96 161.7v284.6a65.7 65.7 0 0 0 65.7 65.7h43.8v383.2a32.9 32.9 0 0 0 65.7 0V512h481.6v383.2a32.9 32.9 0 0 0 65.7 0V512h43.8a65.7 65.7 0 0 0 65.7-65.7V161.7A65.7 65.7 0 0 0 862.3 96zM161.7 446.3V161.7h317.5v284.6z m700.6 0H544.8V161.7h317.5z" p-id="1328"></path><path d="M369.7 271.2H260.2a32.8 32.8 0 1 0 0 65.6h109.5a32.8 32.8 0 1 0 0-65.6zM654.3 336.8h109.5a32.8 32.8 0 1 0 0-65.6H654.3a32.8 32.8 0 1 0 0 65.6z" p-id="1329"></path></svg> -->
+                <!-- <svg t="1658309633415" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1244" width="23" height="23"><path d="M790.3 423.2H673.2c-19.3 0-35 15.7-35 35s15.7 35 35 35h117.2c19.3 0 35-15.7 35-35s-15.7-35-35.1-35zM790.3 563.5H673.2c-19.3 0-35 15.7-35 35s15.7 35 35 35h117.2c19.3 0 35-15.7 35-35s-15.7-35-35.1-35zM424.2 239.6H219.1c-22.1 0-40 17.9-40 40s17.9 40 40 40h205.1c22.1 0 40-17.9 40-40s-18-40-40-40z" fill="#595BB3" p-id="1245"></path><path d="M845.6 275.5H571.3v-96.4c0-59.9-48.8-108.7-108.7-108.7h-282c-59.9 0-108.7 48.8-108.7 108.7v740.6c0 17.1 13.9 31 31 31h818.3c17.1 0 31-13.9 31-31V382.1c0-58.8-47.8-106.6-106.6-106.6zM249.1 890.7V701c0-40 32.5-72.5 72.5-72.5s72.5 32.5 72.5 72.5v189.7h-145z m262.2 0h-57.2V701c0-73.1-59.5-132.5-132.5-132.5S189.1 627.9 189.1 701v189.7h-57.2V179.2c0-26.8 21.8-48.7 48.7-48.7h282c26.8 0 48.7 21.8 48.7 48.7v711.5z m380.9 0H571.3V335.5h274.3c25.7 0 46.6 20.9 46.6 46.6v508.6z" fill="#595BB3" p-id="1246"></path></svg> -->
+                <svg t="1658309722448" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4016" width="23" height="23"><path d="M203.174245 918.890408h208.909548v-169.868842c-24.228269-5.780463-41.795458-20.818699-41.795458-38.972966 0-18.109107 17.544609-33.169923 41.795458-38.950386v-169.868842H203.174245v417.661036z m459.591973-286.923219v-130.737817H453.85667v169.868842c24.205689 5.780463 41.795458 20.841279 41.795458 38.950386 0 18.154267-17.567189 33.192503-41.795458 38.972966v169.868842h148.440485a235.915149 235.915149 0 0 1 60.469063-286.923219zM704.493936 604.23903a233.205557 233.205557 0 0 1 41.818038-17.00269v-148.621125h119.651069L432.947652 131.076516-0.04516 438.615215h119.65107v480.297773h41.772877V459.501654H704.493936v144.737376z m212.070739 180.82011h-73.949284v-73.971863c0-15.828534-12.802822-28.676516-28.653936-28.676516h-0.158059c-15.828534 0-28.653936 12.825402-28.653936 28.676516v73.971863h-73.971864a28.676516 28.676516 0 0 0-28.676516 28.676516v0.15806c0 15.828534 12.825402 28.653936 28.676516 28.653936h73.971864v73.971863c0 15.828534 12.802822 28.676516 28.653936 28.676516h0.158059c15.828534 0 28.653936-12.825402 28.653936-28.676516v-73.971863h73.949284c15.828534 0 28.676516-12.802822 28.676516-28.653936v-0.15806a28.676516 28.676516 0 0 0-28.676516-28.676516z m-102.693539-181.497508c-116.06086 0-210.174024 94.135744-210.174025 210.219184 0 116.10602 94.113164 210.219184 210.174025 210.219184 116.08344 0 210.174024-94.113164 210.174024-210.219184 0-116.08344-94.090584-210.219184-210.174024-210.219184z m0 394.155325c-101.564542 0-183.890981-82.326439-183.890982-183.936141a183.890981 183.890981 0 1 1 367.804543 0c0 101.609702-82.349019 183.936141-183.913561 183.936141z" fill="#1F3645" p-id="4017"></path></svg>
+                <!-- <svg t="1658309918538" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11395" width="23" height="23"><path d="M736 192H832v96a32 32 0 0 0 64 0V192h96a32 32 0 0 0 0-64H896V32a32 32 0 0 0-64 0V128h-96a32 32 0 0 0 0 64z" fill="#575869" p-id="11396"></path><path d="M979.2 422.4h-307.584V138.496a32 32 0 0 0-64 0V422.4H191.424V137.216a32 32 0 0 0-64 0V422.4H44.864A44.8 44.8 0 0 0 0 467.2v512a44.8 44.8 0 0 0 44.8 44.8h934.4a44.8 44.8 0 0 0 44.8-44.8v-512a44.8 44.8 0 0 0-44.8-44.8zM960 960H64V486.4h896z" fill="#575869" p-id="11397"></path><path d="M633.856 780.8a57.6 57.6 0 1 0-57.6-57.6 57.6 57.6 0 0 0 57.6 57.6zM824.96 780.8a57.6 57.6 0 1 0-57.6-57.6 57.6 57.6 0 0 0 57.6 57.6z" fill="#575869" p-id="11398"></path></svg> -->
+
+            </i>
+            <div class="aui-bar-tab-label" id="label_site">New Site</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="icon iconfont">&#xe6c9;</i>
+            <div class="aui-bar-tab-label" id="label_logout">Logout</div>
+        </div>
+
+    </footer>
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");
+    // var NVTabBar = null;
+    var frames = [];
+    var index,preindex;
+     // var isopen = $api.getStorage("isopen")?
+    apiready = function(){
+        api.closeWin({
+            name: 'root'
+        });
+        api.parseTapmode();
+        // alert(JSON.stringify(api.pageParam));
+
+        setTitle(localization.pvtitle);
+        $api.html($api.byId('label_home'), localization.dashboard);
+        $api.html($api.byId('label_pvlist'), localization.pvlist);
+        $api.html($api.byId('label_www'), localization.www);
+        $api.html($api.byId('label_site'), localization.site);
+        $api.html($api.byId('label_logout'), localization.logout);
+
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var frame_y=headerPos.h;
+        var frame_h=api.winHeight-headerPos.h-60;
+        var title = localization.pvtitle;
+        // openFrame('pvlist',false,0,frame_y,'auto',frame_h,{});
+        if($api.getStorage("isopen")==0)
+        {
+            $api.addCls($api.byId('www'), 'aui-hide');
+        }
+        if($api.getStorage("isopen")==1)
+            $api.removeCls($api.byId('www'), 'aui-hide');
+        frames = [
+            {
+                name: 'dashboard_frm',
+                url: 'dashboard_frm.html',
+                bounces:false,
+                pageParam:{}
+
+            },{
+                name: 'pvlist_frm',
+                url: 'pvlist_frm.html',
+                bounces:false,
+                pageParam:{}
+
+            },{
+                name: 'site_frm',
+                url: 'https://user.nepviewer.com/pv_manager/add_site_multi.php',
+                bounces:false,
+                pageParam:{}
+
+            }
+
+        ];
+
+        var tab = new auiTab({
+            element:document.getElementById("footer"),
+            index:2
+        },function(ret){
+            if (ret.index == 1)
+                title=localization.dashboardtitle;
+            if (ret.index == 2)
+                title=localization.pvtitle;
+            if (ret.index == 3)
+                title='NEPVIEWER';
+            if (ret.index == 4)
+                title='SITE';
+            if(ret.index == 1 || ret.index == 2  )
+            {
+                api.setFrameGroupIndex({
+                    name: 'group',
+                    index: ret.index-1,
+                    // reload : true
+                });
+                setTitle(title);
+            }
+
+            if(ret.index == 3)
+            {
+                api.openWin({
+                    name: 'www_win',
+                    url: 'widget://html/www_win.html',
+                    bounces:false
+                });
+                preindex = ret.preindex;
+            }
+
+            if (ret.index == 4) {
+                api.openWin({
+                    name: 'site_win',
+                    url: 'widget://html/site_win.html',
+                    bounces:false
+                });
+                preindex = ret.preindex;
+            }
+
+            if (ret.index == 5) {
+                $api.clearStorage ();
+                api.openWin({
+                    name: 'login_win',
+                    url: 'login_win.html',
+                    slidBackEnabled:false
+                });
+                setTimeout(function() {
+                    closeWin();
+                }, 1000);
+
+            }
+                // setTitle(title);
+                // alert(title);
+
+            // }
+        });
+
+        // alert(tab.getIndex());
+        openFrameGroup();
+
+        api.addEventListener({
+            name: 'closenepviewer'
+        }, function(ret, err) {
+            tab.setActive(preindex);
+        });
+
+        window.addEventListener("orientationchange", function() {
+
+            var header = $api.byId('aui-header');
+            var headerPos = $api.offset(header);
+            var footer_h = $api.offset($api.dom('footer')).h;
+            setTimeout(function() {
+                api.setFrameGroupAttr({
+                    name: 'group',
+                    rect: {
+                        x: 0,
+                        y: headerPos.h,
+                        w: 'auto',
+                        h: api.winHeight-headerPos.h-footer_h
+                    },
+                });
+            },1000);
+
+        })
+
+    };
+    function openFrameGroup()
+    {
+        var footer= $api.byId('footer');
+        var activeNode = footer.querySelector(".aui-active");
+        var index = activeNode.getAttribute("data-item-order");
+        if(!index)
+            index = 1;
+        // alert(index);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var footer_h = $api.offset($api.dom('footer')).h;
+        api.openFrameGroup({ // 打开 frame 组
+            name: 'group',
+            scrollEnabled: false,
+            // bounces:false,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: api.winHeight-headerPos.h-footer_h
+            },
+            index: index, // 默认是首页
+            frames: frames
+        }, function (ret, err) {
+
+        });
+    }
+
+</script>
+</html>

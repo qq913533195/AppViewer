@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+
+    <style type="text/css" >
+       .iconfont {
+
+          /* font-size: 16px; */
+          font-size: 1.2rem;
+
+        }
+    </style>
+</head>
+<body>
+   <header class="aui-bar aui-bar-nav aui-text-center header" id="aui-header">
+        <h2 class="aui-title"></h2>
+         <a class="aui-pull-right aui-btn "  tapmode onclick="logout()">
+            <!-- <i class="aui-iconfont aui-icon-back"></i> -->
+         </a>
+    </header>
+
+     <footer class="aui-bar aui-bar-tab aui-border-t" id="footer">
+        <div class="aui-bar-tab-item " tapmode>
+            <i class="icon iconfont">&#xe665;</i>
+            <div class="aui-bar-tab-label" id="label_home" >Home</div>
+        </div>
+        <div class="aui-bar-tab-item  aui-active" tapmode>
+            <i class="icon iconfont">&#xe63c;</i>
+            <div class="aui-bar-tab-label" id="label_pvlist">Pv List</div>
+        </div>
+        <div class="aui-bar-tab-item " tapmode id='www'>
+            <i class="icon iconfont">&#xe642;</i>
+            <div class="aui-bar-tab-label" id="label_www">WWW</div>
+        </div>
+        <div class="aui-bar-tab-item " tapmode id='site'>
+            <i class="icon iconfont">&#xe63e;</i>
+            <div class="aui-bar-tab-label" id="label_site">Site</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="icon iconfont">&#xe6c9;</i>
+            <div class="aui-bar-tab-label" id="label_logout">Logout</div>
+        </div>
+
+    </footer>
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");
+    // var NVTabBar = null;
+    var frames = [];
+    var index,preindex;
+     // var isopen = $api.getStorage("isopen")?
+    apiready = function(){
+        api.closeWin({
+            name: 'root'
+        });
+        api.parseTapmode();
+        // alert(JSON.stringify(api.pageParam));
+
+        setTitle(localization.pvtitle);
+        $api.html($api.byId('label_home'), localization.dashboard);
+        $api.html($api.byId('label_pvlist'), localization.pvlist);
+        $api.html($api.byId('label_www'), localization.www);
+        $api.html($api.byId('label_site'), localization.site);
+        $api.html($api.byId('label_logout'), localization.logout);
+
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var frame_y=headerPos.h;
+        var frame_h=api.winHeight-headerPos.h-60;
+        var title = localization.pvtitle;
+        // openFrame('pvlist',false,0,frame_y,'auto',frame_h,{});
+        if($api.getStorage("isopen")==0)
+        {
+            $api.addCls($api.byId('www'), 'aui-hide');
+        }
+        if($api.getStorage("isopen")==1)
+            $api.removeCls($api.byId('www'), 'aui-hide');
+        frames = [
+            {
+                name: 'dashboard_frm',
+                url: 'dashboard_frm.html',
+                bounces:false,
+                pageParam:{}
+
+            },{
+                name: 'pvlist_frm',
+                url: 'pvlist_frm.html',
+                bounces:false,
+                pageParam:{}
+
+            },{
+                name: 'site_frm',
+                url: 'https://user.nepviewer.com/pv_manager/add_site_multi.php',
+                bounces:false,
+                pageParam:{}
+
+            }
+
+        ];
+
+        var tab = new auiTab({
+            element:document.getElementById("footer"),
+            index:2
+        },function(ret){
+            if (ret.index == 1)
+                title=localization.dashboardtitle;
+            if (ret.index == 2)
+                title=localization.pvtitle;
+            if (ret.index == 3)
+                title='NEPVIEWER';
+            if (ret.index == 4)
+                title='SITE';
+            if(ret.index == 1 || ret.index == 2  )
+            {
+                api.setFrameGroupIndex({
+                    name: 'group',
+                    index: ret.index-1,
+                    // reload : true
+                });
+                setTitle(title);
+            }
+
+            if(ret.index == 3)
+            {
+                api.openWin({
+                    name: 'www_win',
+                    url: 'widget://html/www_win.html',
+                    bounces:false
+                });
+                preindex = ret.preindex;
+            }
+
+            if (ret.index == 4) {
+                // $api.getStorage('token')
+                api.openWin({
+                    name: 'site_win',
+                    url: 'http://www.baidu.com',
+                    // url: 'https://user.nepviewer.com/pv_manager/add_site_multi.php' + $api.getStorage('token'),
+                    slidBackEnabled:false
+                });
+                setTimeout(function() {
+                    closeWin();
+                }, 1000);
+
+            }
+
+            if (ret.index == 5) {
+                $api.clearStorage ();
+                api.openWin({
+                    name: 'login_win',
+                    url: 'login_win.html',
+                    slidBackEnabled:false
+                });
+                setTimeout(function() {
+                    closeWin();
+                }, 1000);
+
+            }
+                // setTitle(title);
+                // alert(title);
+
+            // }
+        });
+
+        // alert(tab.getIndex());
+        openFrameGroup();
+
+        api.addEventListener({
+            name: 'closenepviewer'
+        }, function(ret, err) {
+            tab.setActive(preindex);
+        });
+
+        window.addEventListener("orientationchange", function() {
+
+            var header = $api.byId('aui-header');
+            var headerPos = $api.offset(header);
+            var footer_h = $api.offset($api.dom('footer')).h;
+            setTimeout(function() {
+                api.setFrameGroupAttr({
+                    name: 'group',
+                    rect: {
+                        x: 0,
+                        y: headerPos.h,
+                        w: 'auto',
+                        h: api.winHeight-headerPos.h-footer_h
+                    },
+                });
+            },1000);
+
+        })
+
+    };
+    function openFrameGroup()
+    {
+        var footer= $api.byId('footer');
+        var activeNode = footer.querySelector(".aui-active");
+        var index = activeNode.getAttribute("data-item-order");
+        if(!index)
+            index = 1;
+        // alert(index);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var footer_h = $api.offset($api.dom('footer')).h;
+        api.openFrameGroup({ // 打开 frame 组
+            name: 'group',
+            scrollEnabled: false,
+            // bounces:false,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: api.winHeight-headerPos.h-footer_h
+            },
+            index: index, // 默认是首页
+            frames: frames
+        }, function (ret, err) {
+
+        });
+    }
+
+</script>
+</html>

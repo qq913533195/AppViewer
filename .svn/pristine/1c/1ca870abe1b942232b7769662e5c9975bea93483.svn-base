@@ -1,0 +1,315 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+
+    <style type="text/css" >
+        .aui-bar-nav .aui-title
+        {
+            right: 3rem;
+            left: 3rem;
+        }
+        .aui-content
+        {
+            height: 5.5rem;
+            color: #fff;
+            font-size: 0.7rem;
+
+        }
+        .aui-weather{
+           margin-left: 0.5rem;
+           display: block;
+
+        }
+        .aui-lastupdate{
+            margin-top: 0.3rem;
+           margin-left: 0.5rem;
+           display: block;
+
+        }
+        header{
+            background-color: #387ef5;
+        }
+    </style>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" id="aui-header">
+        <a class="aui-btn aui-pull-left" tapmode onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title"></div>
+    </header>
+    <section class="aui-content " >
+        <div class="aui-margin-l-5 aui-margin-t-5" id="siteinfo">
+
+        </div>
+        <div class="aui-weather " id="weather">
+          <!-- <canvas style="float: left" id="currently-icon" width="25" height="25"></canvas>
+          <div  style="float: left;margin-left: 5px" id="currently-temperature"></div> -->
+           <canvas  id="currently-icon" width="25" height="25"></canvas>
+          <span  id="currently-temperature"></span>
+        </div>
+
+        <div class="aui-lastupdate" id="lastupdtate">
+
+        </div>
+    </section>
+    <footer class="aui-bar aui-bar-tab aui-border-t" id="footer">
+        <div class="aui-bar-tab-item aui-active" tapmode>
+            <i class="icon iconfont">&#xe61f;</i>
+            <div class="aui-bar-tab-label" id="label_status" ></div>
+        </div>
+        <div class="aui-bar-tab-item " tapmode>
+            <i class="icon iconfont">&#xe67e;</i>
+            <div class="aui-bar-tab-label" id="label_today">Today</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="icon iconfont">&#xe726;</i>
+            <div class="aui-bar-tab-label" id="label_week">Week</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="icon iconfont">&#xe61c;</i>
+            <div class="aui-bar-tab-label" id="label_month">Month</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="icon iconfont">&#xe61b;</i>
+            <div class="aui-bar-tab-label" id="label_year">Year</div>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<!-- <script type="text/javascript" src="../js/jquery-1.8.2.js"></script> -->
+<script type="text/javascript" src="../js/skycons.js"></script>
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");
+    var frames = [];
+    // var apiKeyId = 1;
+    // var apiKey = '31ad439ebb865ad003382e2d39e1e9a5';
+    apiready = function(){
+        api.parseTapmode();
+        $api.html($api.byId('label_status'), localization.status);
+        $api.html($api.byId('label_today'), localization.today);
+        $api.html($api.byId('label_week'), localization.week);
+        $api.html($api.byId('label_month'), localization.month);
+        $api.html($api.byId('label_year'), localization.year);
+        // alert(JSON.stringify(api.pageParam));
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+        var section_h = $api.offset($api.dom('section')).h;
+        var footer_h = $api.offset($api.dom('footer')).h;
+        setTitle(unescape(api.pageParam.Site_Name));
+
+        setSiteinfo();
+        loadWeather()
+        // getWeather();
+        $api.css($api.dom('.aui-content'),'background-image:url('+unescape(api.pageParam.Logo)+');background-repeat:no-repeat;background-size:100%');
+
+        var tab = new auiTab({
+            element:document.getElementById("footer")
+        },function(ret){
+            // alert(ret);
+            // console.log(ret);
+            if(ret){
+                // document.getElementById("demo").textContent = ret.index;
+                // alert(ret.index);
+                api.setFrameGroupIndex({
+                    name: 'group',
+                    index: ret.index-1
+                });
+            }
+        });
+
+        var eFooterLis = $api.domAll('#footer .aui-bar-tab-item');
+        frames = []; // 选择所有匹配的DOM元素
+        for (var i = 0,len = eFooterLis.length; i < len; i++) {
+
+            var url = 'pvdetail'+i+'_frm.html';
+            frames.push( {
+                name: 'pvdetail'+i+'_frm',
+                url: url,
+                // bgColor : 'rgba(0,0,0,.2)',
+                bounces:false,
+                pageParam:{
+                    'sid':api.pageParam.Sid,
+                    'gateways':api.pageParam.Gateways
+                },
+            } )
+        }
+
+        window.addEventListener("orientationchange", function() {
+            var header = $api.byId('aui-header');
+            var headerPos = $api.offset(header);
+            var section_h = $api.offset($api.dom('section')).h;
+            var footer_h = $api.offset($api.dom('footer')).h;
+            setTimeout(function() {
+                api.setFrameGroupAttr({
+                    name: 'group',
+                    rect: {
+                        x: 0,
+                        y: headerPos.h+section_h,
+                        w: 'auto',
+                        h: api.winHeight-headerPos.h-section_h-footer_h
+                    },
+                });
+            },1000);
+            // api.closeFrameGroup({
+            //     name: 'group'
+            // });
+            // setTimeout(function() {
+            //     openFrameGroup();
+            // }, 1000);
+
+        })
+
+        openFrameGroup();
+
+    };
+
+    function openFrameGroup()
+    {
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var section_h = $api.offset($api.dom('section')).h;
+        var footer_h = $api.offset($api.dom('footer')).h;
+        api.openFrameGroup({ // 打开 frame 组
+            name: 'group',
+            scrollEnabled: false,
+            // bounces:false,
+            rect: {
+                x: 0,
+                y: headerPos.h+section_h,
+                w: 'auto',
+                h: api.winHeight-headerPos.h-section_h-footer_h
+            },
+            index: 0, // 默认是首页
+            frames: frames
+        }, function (ret, err) {
+//             if (ret.index != '0') { // 不是首页
+// //                api.sendFrameToBack({ // 调整到后方
+// //                    from: 'frame0Con',
+// //                    to: ret.frameName
+// //                });
+
+//                 api.setFrameAttr({ // 隐藏内容层
+//                     name: 'frame0Con',
+//                     hidden:true,
+//                 });
+//             } else { // 是首页
+// //                api.bringFrameToFront({ // 调整到前方
+// //                    from: 'frame0Con',
+// //                    to: ret.frameName
+// //                });
+
+//                 api.setFrameAttr({ // 显示内容层
+//                     name: 'frame0Con',
+//                     hidden:false,
+//                 });
+//             }
+        });
+    }
+    function setSiteinfo()
+    {
+        var siteinfo=(unescape(api.pageParam.Street)).substring(0,16)+","+unescape(api.pageParam.City);
+        siteinfo +="<br>";
+        siteinfo +=unescape(api.pageParam.State+","+api.pageParam.Country);
+        // alert(siteinfo);
+        $api.html($api.byId('siteinfo'), siteinfo);
+    }
+
+
+    function loadWeather() {
+        if($api.getStorage('apiKeyId') &&  $api.getStorage('apiKey')) {
+            getWeather();
+        } else{
+            id =1;
+            $api.setStorage('apiKeyId',1);
+            getWeatherKey()
+        }
+    }
+    function getWeather()
+    {
+        apiKey = $api.getStorage('apiKey');
+        var temperature_unit=api.pageParam.Temperature_Unit;
+        if(temperature_unit=="Celsius")
+        {
+            units_text = "&#8451;"
+            units="si";
+        }
+        if(temperature_unit=="Fahrenheit"){
+            units_text = "&#8457;"
+            units="us";
+        }
+        var langstr ='';
+        var lang = $api.getStorage('lang');
+        switch (lang) {
+            case 'en':
+            case 'zh':
+            case 'ja':
+            case 'es':
+            case 'de':
+                langstr = "&lang=" + lang;
+                break;
+            default:
+                langstr = "&lang=en" ;
+                break;
+        }
+
+        var lon=api.pageParam.Longitude;
+        var lat=api.pageParam.Latitude;
+
+        var apiURL = "https://api.darksky.net/forecast/"+apiKey+"/"+lat+","+lon+"?units="+units + langstr;
+        // alert(apiURL);
+        var skycons = new Skycons({"color":"#fff"});
+        // var skycons = new Skycons();
+        api.ajax({
+            url: apiURL,
+            method: 'get',
+        },function(ret, err){
+            if (ret) {
+                // alert( JSON.stringify( ret ) );
+                skycons.set("currently-icon",ret.currently.icon );
+                skycons.play();
+                $api.html($api.byId('currently-temperature'), ret.currently.temperature+ units_text +"&nbsp;&nbsp;&nbsp;&nbsp;"+ret.currently.summary);
+
+            } else {
+                id = $api.getStorage('apiKeyId');
+                $api.setStorage('apiKeyId',id++);
+                getweatherkey();
+            }
+        });
+    }
+
+    function getWeatherKey() {
+
+        id = $api.getStorage('apiKeyId');
+        // alert(id);
+        var url=$api.getStorage('url')+'getweatherkey';
+        ajaxRequest(url,{id:id},function(ret,err){
+            if(ret.status ){
+                // alert(JSON.stringify(ret))
+                $api.setStorage('apiKeyId',ret.data.id);
+                $api.setStorage('apiKey',ret.data.value);
+                getWeather();
+            }
+        })
+    }
+
+    function setLastUpdate(text)
+    {
+        $api.html($api.byId('lastupdtate'), localization.last_updatae + ":" + text);
+    }
+    function closeWin(){
+        api.closeWin({
+        });
+    }
+
+
+</script>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/pv.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+
+    <section class="aui-content ">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title font_current" id="label_current_power"></div>
+                    <div class="aui-list-item-right" id="now"></div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section class="aui-content aui-grid ">
+        <div class="aui-row">
+            <div class="aui-col-xs-4 aui-border-r">
+                <div class="aui-gird-lable aui-font-size-12 grid-title" id="label_today_energy"></div>
+                <big class="aui-text-warning" id="today"></big><small class="aui-text-success1" id="unit_todayout"> </small>
+
+            </div>
+            <div class="aui-col-xs-4 aui-border-r">
+                <div class="aui-gird-lable aui-font-size-12 grid-title" id="label_lifetime_energy"></div>
+                <big class="aui-text-danger" id="total"></big>
+                <small class="aui-text-danger" id="unit_totalout"> </small>
+            </div>
+            <div class="aui-col-xs-4">
+                <div class="aui-gird-lable aui-font-size-12 grid-title" id="label_lefetime_co2"></div>
+                <big class="aui-text-success" id="co2"></big>
+                <small class="aui-text-success" id="unit_co2"> </small>
+            </div>
+        </div>
+    </section>
+   <!--  <section class="aui-content ">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title font_tips">Energy generated equivalent to</div>
+                </div>
+            </li>
+        </ul>
+    </section>   -->
+     <section class="aui-content aui-grid ">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title font_tips" id="label_energy_generate"></div>
+                </div>
+            </li>
+        </ul>
+        <div class="aui-row ">
+             <div class="aui-col-xs-6 aui-border-r aui-card-list">
+                <div class="aui-card-list-header aui-card-list-user">
+                    <div class="aui-card-list-user-avatar">
+                        <img src="../image/timg.png">
+                    </div>
+                    <div class="aui-card-list-user-name">
+                        <div class="grid-font_big" id="lf_l"></div>
+                    </div>
+                    <div class="aui-card-list-user-name" >
+                        <div class="grid-font_small" id="unit_lf_l"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-col-xs-6 aui-border-r">
+                <div class="aui-card-list-header aui-card-list-user">
+                    <div class="aui-card-list-user-avatar">
+                        <img src="../image/petroleum.png">
+                    </div>
+                    <div class="aui-card-list-user-name">
+                        <div class="grid-font_big" id="lf_p"></div>
+                    </div>
+                    <div class="aui-card-list-user-name" >
+                        <div class="grid-font_small" id="unit_lf_p"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title font_tips" id="label_co2_offset"></div>
+                </div>
+            </li>
+        </ul>
+        <div class="aui-row aui-border-b">
+             <div class="aui-col-xs-6 aui-border-r aui-card-list">
+                <div class="aui-card-list-header aui-card-list-user">
+                    <div class="aui-card-list-user-avatar">
+                        <img src="../image/tree.png">
+                    </div>
+                    <div class="aui-card-list-user-name">
+                        <div class="grid-font_big" id="lf_t"></div>
+                    </div>
+                    <div class="aui-card-list-user-name" >
+                        <div class="grid-font_small" id="unit_lf_t"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-col-xs-6 aui-border-r">
+                <div class="aui-card-list-header aui-card-list-user">
+                    <div class="aui-card-list-user-avatar">
+                        <img src="../image/car.png">
+                    </div>
+                    <div class="aui-card-list-user-name">
+                        <div class="grid-font_big" id="lf_c"></div>
+                    </div>
+                    <div class="aui-card-list-user-name" >
+                        <div class="grid-font_small" id="unit_lf_c"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../js/common.js"></script>
+
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");
+    apiready = function () {
+        // alert(api.pageParam.sid);
+        loadData(function(){})
+        initLabel();
+    }
+
+    function loadData(callback){
+
+        var url=$api.getStorage('url')+'status/'+api.pageParam.sid;
+        var params={} ;
+        // alert(url);
+        ajaxRequest(url,params,function(result,err){
+            // alert(JSON.stringify(result));
+            api.execScript({
+                script: 'setLastUpdate("'+result.LastUpdate+'");'
+            });
+            $api.html($api.byId('now'), parseFloat(result.now).toFixed(1)+localization.unit_w);
+
+            var unit_todayout = localization.unit_todayout;
+            var unit_totalout = localization.unit_totalout;
+            var unit_co2 = localization.unit_co2;
+            var unit_lf_c=localization.unit_lf_c;
+            var unit_lf_l=localization.unit_lf_l;
+            var unit_lf_p=localization.unit_lf_p;
+            var unit_lf_t=localization.unit_lf_t;
+            var t_today = (parseFloat(result.today)/1000).toFixed(2);
+            var t_total = parseFloat(result.total/1000).toFixed(2);
+            var t_co2 = parseFloat(result.co2).toFixed(2);
+            var lf_c = (parseFloat(result.co2)   / 0.29).toFixed(2);
+
+            if(lf_c>9999.9)
+            {
+              lf_c = (parseFloat(lf_c)/1000).toFixed(2);
+              unit_lf_c = localization.unit_lf_c_k;
+            }
+
+            if(lf_c>9999.9)
+            {
+              lf_c = (parseFloat(lf_c)/1000).toFixed(2);
+              unit_lf_c = localization.unit_lf_c_m;
+            }
+            if(lf_c>9999.9)
+            {
+              lf_c = (parseFloat(lf_c)/1000).toFixed(2);
+              unit_lf_c = localization.unit_lf_c_b;
+            }
+
+            var lf_l = (parseFloat(result.total) / 60).toFixed(2);
+
+            if(lf_l>9999.9)
+            {
+              lf_l = (parseFloat(lf_l)/1000).toFixed(2);
+              unit_lf_l = localization.unit_lf_l_k;
+            }
+
+            if(lf_l>9999.9)
+            {
+              lf_l = (parseFloat(lf_l)/1000).toFixed(2);
+              unit_lf_l = localization.unit_lf_l_m;
+            }
+            if(lf_l>9999.9)
+            {
+              lf_l = (parseFloat(lf_l)/1000).toFixed(2);
+              unit_lf_l = localization.unit_lf_l_b;
+            }
+            var lf_p = (parseFloat(result.total)/587.78).toFixed(2);
+
+            if(lf_p>9999.9)
+            {
+              lf_p = (parseFloat(lf_p)/1000).toFixed(2);
+              unit_lf_p = localization.unit_lf_p_k;
+            }
+
+            if(lf_p>9999.9)
+            {
+              lf_p = (parseFloat(lf_p)/1000).toFixed(2);
+              unit_lf_p = localization.unit_lf_p_m;
+            }
+            if(lf_p>9999.9)
+            {
+              lf_p = (parseFloat(lf_p)/1000).toFixed(2);
+              unit_lf_p = localization.unit_lf_p_b;
+            }
+
+            var lf_t = (parseFloat(result.co2) *1000 / 12.24).toFixed(0);
+            if(t_co2>0&&lf_t<1){
+              lf_t = 1;
+            }
+
+            if(lf_t>9999.9)
+            {
+              lf_t = (parseFloat(lf_t)/1000).toFixed(0);
+              unit_lf_t = localization.unit_lf_t_k;
+            }
+
+            if(lf_t>9999.9)
+            {
+              lf_t = (parseFloat(lf_t)/1000).toFixed(0);
+              unit_lf_t = localization.unit_lf_t_m;
+            }
+            if(lf_t>9999.9)
+            {
+              lf_t = (parseFloat(lf_t)/1000).toFixed(0);
+              unit_lf_t = localization.unit_lf_t_b;
+            }
+
+            if(t_today>9999.9){
+              t_today = (parseFloat(t_today)/1000).toFixed(1);
+              unit_todayout = localization.unit_todayout_m;
+            }
+            if(t_today>9999.9){
+              t_today = (parseFloat(t_today)/1000).toFixed(1);
+              unit_todayout = localization.unit_todayout_g;
+            }
+            if(t_total>9999.9){
+              t_total = (parseFloat(t_total)/1000).toFixed(1);
+              unit_totalout = localization.unit_totalout_m;
+            }
+            if(t_total>9999.9){
+              t_total = (parseFloat(t_total)/1000).toFixed(1);
+              unit_totalout = localization.unit_totalout_g;
+            }
+            if(t_co2>9999.9){
+              t_co2 = (parseFloat(t_co2)/1000).toFixed(1);
+              unit_co2 = localization.unit_co2_t;
+            }
+            if(t_co2>9999.9){
+              t_co2 = (parseFloat(t_co2)/1000).toFixed(1);
+              unit_co2 = localization.unit_co2_kt;
+            }
+
+            // $scope.data.today=t_today;
+            $api.html($api.byId('today'),t_today);
+            $api.html($api.byId('unit_todayout'),unit_todayout);
+            $api.html($api.byId('total'),t_total);
+            $api.html($api.byId('unit_totalout'),unit_totalout);
+            $api.html($api.byId('co2'),t_co2);
+            $api.html($api.byId('unit_co2'),unit_co2);
+            $api.html($api.byId('lf_l'),lf_l); //hour
+            $api.html($api.byId('unit_lf_l'),unit_lf_l);
+            $api.html($api.byId('lf_p'),lf_p); //(bbl)
+            $api.html($api.byId('unit_lf_p'),unit_lf_p);
+            $api.html($api.byId('lf_t'),lf_t); //(tree)
+            $api.html($api.byId('unit_lf_t'),unit_lf_t);
+            $api.html($api.byId('lf_c'),lf_c); //(bbl)
+            $api.html($api.byId('unit_lf_c'),unit_lf_c);
+            // $scope.data.lf_c= lf_c; //(miles)</span>")
+            // $scope.data.unit_lf_c=unit_lf_c;
+            // $scope.data.lf_l= lf_l; //(hours)</span>")
+            // $scope.data.unit_lf_l=unit_lf_l;
+            // $scope.data.lf_p= lf_p; //(bbl)</span>")
+            // $scope.data.unit_lf_p=unit_lf_p;
+            // $scope.data.lf_t= lf_t; //(trees)</span>");
+            // $scope.data.unit_lf_t=unit_lf_t;
+        })
+
+    }
+
+function initLabel()
+{
+    $api.html($api.byId('label_current_power'), localization.current_power);
+    $api.html($api.byId('label_today_energy'), localization.today_energy);
+    $api.html($api.byId('label_lifetime_energy'), localization.lifetime_energy);
+    $api.html($api.byId('label_lefetime_co2'), localization.lifetime_co2);
+    $api.html($api.byId('label_energy_generate'), localization.energy_generate);
+    $api.html($api.byId('label_co2_offset'), localization.co2_offset);
+}
+</script>
+</html>

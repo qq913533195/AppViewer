@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" id="aui-header">
+        <a class="aui-btn aui-pull-left" tapmode onclick="closeMyWin()">
+            <!-- <span class="aui-iconfont aui-icon-close"></span> -->
+        </a>
+       <!--  <a class="aui-pull-right aui-btn " id="back"  tapmode onclick="historyBack()">
+            <i class="aui-iconfont aui-icon-back"></i>
+        </a> -->
+        <div class="aui-title">FORGET PASSWORD</div>
+    </header>
+
+
+    <footer class="aui-bar aui-bar-tab aui-margin-t-15 ">
+        <div class="aui-bar-tab-item  aui-bg-info aui-text-white" id="div_history" tapmode style="width: auto;" onclick="historyBack()">
+            <i class="aui-iconfont aui-icon-back aui-text-white" id="icon_history"></i>
+        </div>
+        <div class="aui-bar-tab-item aui-bg-success aui-text-white" tapmode style="width: auto;" onclick="list()">
+            <i class="aui-iconfont aui-icon-comment aui-text-white"></i>
+        </div>
+        <div class="aui-bar-tab-item aui-bg-info aui-text-white" tapmode style="width: auto;" onclick="closeMyWin()">
+            <i class="aui-iconfont aui-icon-close aui-text-white"></i>
+        </div>
+    </footer>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../script/aui-toast.js"></script>
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");
+    var isclick = 0;
+    var toast = new auiToast();
+    apiready = function(){
+        api.parseTapmode();
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+        var footer_h = $api.offset($api.dom('footer')).h;
+
+        list();
+        toast.loading({
+            title:localization.loading,
+            // duration:12000
+        },function(ret){
+        });
+
+        window.addEventListener("orientationchange", function() {
+
+            var header = $api.byId('aui-header');
+            var headerPos = $api.offset(header);
+            var footer_h = $api.offset($api.dom('footer')).h;
+            setTimeout(function() {
+                api.setFrameAttr({
+                    name: 'nepviewer',
+                    rect : {
+                        x : 0,
+                        y : headerPos.h,
+                        w : 'auto',
+                        h : api.winHeight-headerPos.h-footer_h
+                    }
+                });
+            },1000);
+
+        })
+
+        api.setFrameClient({
+            frameName: 'nepviewer'
+        }, function(ret, err) {
+            // alert(JSON.stringify(ret))
+            if(ret.state==2)
+            {
+                $api.removeCls($api.byId('label_history'),'aui-text-primary');
+                $api.removeCls($api.byId('icon_history'),'aui-text-primary');
+                $api.addCls($api.byId('label_history'),'aui-text-white');
+                $api.addCls($api.byId('icon_history'),'aui-text-white');
+                isclick = 0;
+            }
+            if(ret.state == 3){
+                toast.hide();
+            }
+        });
+
+    };
+    function list()
+    {
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var footer_h = $api.offset($api.dom('footer')).h;
+        var lang = api.language;
+
+        // alert($api.getStorage('token'));
+        // api.openFrame({
+        //     name : 'nepviewer',
+        //     // url:"http://www.baidu.com",
+        //     // url : 'http://nep.nepviewer.com/pv_manager/find_pass.php?token=' + $api.getStorage('token'),
+        //     url : 'https://user.nepviewer.com/pv_manager/find_pass.php',
+        //     bounces:true,
+        //     scaleEnabled:true,
+        //     rect : {
+        //         x : 0,
+        //         y : headerPos.h,
+        //         w : 'auto',
+        //         h : api.winHeight-headerPos.h-footer_h
+        //     }
+        // });
+        api.openWin({
+          name: 'nepviewer',
+          url: 'https://user.nepviewer.com/pv_manager/find_pass.php?lang='+lang,
+          slidBackEnabled:false
+        });
+    }
+    function closeMyWin()
+    {
+        api.sendEvent({
+            name: 'closenepviewer',
+        });
+        api.closeWin();
+    }
+
+    function historyBack() {
+
+
+
+        if(isclick == 0)
+        {
+            // isclick =1;
+            api.historyBack({
+                frameName: 'nepviewer'
+            }, function(ret, err) {
+
+                if (!ret.status) {
+                    // api.toast({
+                    //     msg: '网络错误',
+                    //     duration: 2000,
+                    //     location: 'middle',
+                    //     // ico:"widget://image/tree.png",
+                    // })
+
+                     api.sendEvent({
+                        name: 'closenepviewer',
+                    });
+                    api.closeWin();
+                }else{
+                    $api.removeCls($api.byId('label_history'),'aui-text-white');
+                    $api.removeCls($api.byId('icon_history'),'aui-text-white');
+                    $api.addCls($api.byId('icon_history'),'aui-text-primary');
+                    $api.addCls($api.byId('label_history'),'aui-text-primary');
+
+                }
+            });
+
+
+        }
+
+
+        // api.closeFrame()
+        // window.history.back(-1);
+        // api.historyBack();
+    }
+</script>
+</html>

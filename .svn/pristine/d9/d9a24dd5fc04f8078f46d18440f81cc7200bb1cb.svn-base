@@ -1,0 +1,9 @@
+{
+	"oPaginate": {					
+			"sPrevious": "上一页",
+			"sNext": "下一页"					
+			},
+		"sLengthMenu": "每页显示 _MENU_ 条记录",				
+		"sSearch": "搜索:",
+		"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据"
+}

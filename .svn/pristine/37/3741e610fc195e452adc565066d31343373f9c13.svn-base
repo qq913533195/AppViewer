@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		
+		<meta charset="utf-8">
+		<title>NEP PV plant Administrator</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+		<meta name="author" content="Muhammad Usman">
+
+		<!-- The styles -->
+		<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+
+		<link href="css/charisma-app.css" rel="stylesheet">
+		<style type="text/css">
+		 input.error{border: 1px dotted red;}
+      label.error{     
+        background-repeat:no-repeat;
+        padding-left:18px;
+        color: red;
+      }
+		.radio-inline input[type="radio"]{
+			margin-left: 10px;
+			position: static;
+		}
+		.login-box .btn  {
+	    margin-top:0px;
+	    width: auto;
+		}
+		/*.login-box .btn .loginbtn{
+			 margin-top:30px;
+	     width: 40%;
+		}*/
+		</style>
+
+		<!-- jQuery -->
+		<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+		<script type="text/javascript" src="js/jquery.blockUI.min.js"></script>
+		<script type="text/javascript" src="js/validate/jquery.validate.js"></script>
+		<script type="text/javascript" src="js/validate/jquery.form.js"></script>
+		<?php
+  if(isset($_GET['lang']))
+    $lang=$_GET['lang'];
+  else
+    $lang="en";
+  if($lang!="en"){
+
+?>
+<script type="text/javascript" src="js/validate/localization/messages_<?php echo $lang;?>.js"></script>
+<?php
+}?>
+		<link rel="shortcut icon" href="img/favicon.ico">
+
+</head>
+
+<body>
+<div class="ch-container">
+		<div class="row">
+				
+		<div class="row">
+				<div class="col-md-12 center login-header">
+          <h2><span id="title"></span></h2>
+				</div>
+				<!--/span-->
+		</div><!--/row-->
+
+		<div class="row">
+            <div class="well col-md-6 center login-box">
+                <div class="alert alert-info">
+                    <span id="alert_info"></span>
+                </div>
+
+                <div class="aui-list aui-form-list " style="margin-top: 8.3rem;">
+                    <label class="control-label "  for="Email">
+                        <span id="Email_Name"></span>
+                    </label>
+                    <div class="aui-list-item">
+                        <div class="aui-list-item-inner ">
+                            <div class="aui-list-item-label-icon">
+                            <i class="aui-iconfont aui-icon-lock"></i>
+                            </div>
+                            <div class="aui-list-item-input">
+                                <input class="form-control" type="email"  id="Email" name="Email">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <div class="btn btn-primary" style="margin-top: 1rem;" id="submit" tapmode onclick="loginIn()">Submit</div>
+
+        </div>
+				<!--/span-->
+    </div><!--/row-->
+</div><!--/fluid-row-->
+
+</div><!--/.fluid-container-->
+
+
+
+
+</body>
+</html>
+<script type="text/javascript">
+ $(document).ready(function () {     
+     var validator = $("#form1").validate({
+        rules: {
+           Email: {
+            required: true, 
+            email:true,           
+            remote:{
+              url: "checkuser.php?type=email",     //后台处理程序 
+              type: "post",               //数据发送方式
+              dataType: "json",           //接受数据格式   
+              data: {                     //要传递的数据
+                  Email: function() {
+                    return $("#Email").val();
+                 }
+              }
+            }   
+          }
+      },
+      messages: {
+        Email:{  
+          remote: ""
+        //   "<?php            
+        //     switch ($lang)
+        //     {
+        //       case 'en': 
+        //         echo 'This email address is not registe.';
+        //         break;
+        //       case 'zh':
+        //         echo '此邮箱还未注册.';
+        //         break;
+        //       default:
+        //         echo 'This email address is not registe.';
+        //         break;
+        //     }
+              
+        //   ?>"
+        }
+      },
+      submitHandler: function() {
+        var options = {  
+          type : "post",  
+          data:{lang:"<?php echo $lang;?>"},
+          dataType : "json",  
+          url : "send_password_mail.php",  
+          cache : "false", 
+          success : complete,  
+          error : errorhandel  
+        };  
+      // 异步提交登陆请求  
+        $.blockUI({ message: 'Please Wait ...',
+                  css: { 
+                  border: 'none', 
+                  padding: '15px', 
+                  backgroundColor: '#000', 
+                  '-webkit-border-radius': '10px', 
+                  '-moz-border-radius': '10px', 
+                  opacity: .5, color: '#fff' 
+              } });
+        $("#form1").ajaxSubmit(options);
+         // setTimeout(function () { $.unblockUI() }, 1000);
+      }    
+    });
+    function complete(data,status){
+       $.unblockUI();       
+       if(data.RTN=="SUCC"){         
+          alert("send success...");           
+      }
+       if(data.RTN=="ERR")
+        alert("send fail...");
+    }
+    function errorhandel()
+    {   
+      alert('error');
+    }    
+    getlang();  
+   function getlang(){
+      var lang="<?php echo $lang;?>";alert(lang);
+      file="findpass.php";
+      $.getJSON('lang.php', {lang:lang,file:file},function(data) {
+        for(key in data)
+        {
+          $("#"+key).html(data[key]);
+        } 
+      });  
+    }
+ 
+});
+
+</script>

@@ -1,0 +1,9 @@
+{
+    "oPaginate": {
+            "sPrevious": "Previous",
+            "sNext": "Next"
+            },
+        "sLengthMenu": "Display _MENU_ records",
+        "sSearch": "Search:",
+        "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries"
+}

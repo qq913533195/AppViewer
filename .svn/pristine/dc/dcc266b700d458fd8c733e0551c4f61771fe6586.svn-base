@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <style>
+      section{
+      	border: 1px solid #dddddd;
+
+      }
+
+      .aui-content-padded
+      {
+      	margin: 0.5rem;
+
+      }
+      .aui-card-list{
+      	padding: 0.5rem;
+      }
+      .item-text-nowrap  p {
+		  overflow: hidden;
+		  text-overflow: ellipsis;
+		  white-space: nowrap;
+	}
+	 .item-text-wrap p {
+	  	word-wrap: break-word;
+		word-break: normal;
+	}
+  .aui-list-item-title{
+    margin-top: 0.5rem;
+    margin-left: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+    </style>
+</head>
+<body>
+     <section class="aui-content aui-content-padded ">
+        <div class="aui-card-list ">
+
+	        <div class="aui-card-list-content item-text-nowrap">
+	           <p>
+          <h2>August 24, 2016</h2>
+        </p>
+        <p>
+          Training videos and a quick installation guide
+        </p>
+        <p style="margin-left: 15px;">
+         <!--  <div class="aui-list-item-title aui-text-success" style="margin-left: 0.75rem" onclick="openPdf('BDM-2015122001_BDG_256_quick_guide','BDM-2015122001_BDG_256_quick_guide.pdf')">A quick installation guide</div> -->
+
+           <div class="aui-list-item-title aui-text-success"  onclick="openVideo('Configuring Wi-Fi using WPS','BDG_WiFi_WPS.mp4')">VIDEO: Configuring Wi-Fi using WPS</div>
+
+          <div class="aui-list-item-title aui-text-success"  onclick="openVideo('Setup gateway using a smart mobile','BDG_wifi_mobile_iphone.m4v')">VIDEO: Setup gateway using a smart mobile</div>
+
+          <div class="aui-list-item-title aui-text-success"  onclick="openVideo('Setup NEPVIEWER and registering a gateway','NPVIEWER_TRAINING_iphone.m4v')"> VIDEO: Setup NEPVIEWER and registering a gateway</div>
+
+          <div class="aui-list-item-title aui-text-success"  onclick="openVideo('Input inverter s/n using a smart mobile','phone_mid_iphone.m4v')"> VIDEO: Input inverter s/n using a smart</div>
+          <br>
+
+
+        </p>
+	        </div>
+
+	    </div>
+	     <div class="aui-hr aui-clearfix"></div>
+	     <div class="aui-card-list">
+
+        <div class="aui-card-list-content item-text-wrap">
+            <p>
+          <h2>June 1, 2015</h2>
+        </p>
+         <p>
+
+          BDM-300 and BDM-300X2 (scheduled for market at 3Q 2015) was recently certified for<a href="http://www.pge.com/en/b2b/energytransmissionstorage/egi/grid/rule21/whatisrule21/index.page" target="_blank"><b> California Electric Rule 21</b> </a>by Intertek.  BDM-300 series micro inverters apply innovative <b><i>Software Defined Inverter</i></b> technique, which enables the inverters configurable for various grid requirements, including<a href="http://www.pge.com/en/b2b/energytransmissionstorage/egi/grid/rule21/whatisrule21/index.page" target="_blank"><b> California Electric Rule 21</b> </a>and the <b>full ride through settings of HECO.</b>
+        </p>
+        </div>
+
+    </div>
+     <div class="aui-hr aui-clearfix"></div>
+     <div class="aui-card-list">
+
+        <div class="aui-card-list-content item-text-wrap">
+           <p>
+          <h2>November 1, 2014</h2>
+        </p>
+        <p>
+          Firmware new release (20141031-02) has been pushed to your BDG-256 gateway.  Your gateway has been upgraded automatically.  Here are the upgrades
+        </p>
+        <p style="margin-left: 15px;">
+          Fixed an issue of time synchronization with internet clock for some gateways<br>
+          Added a new energy saving mode.  Display will be turned off if it is not touched for 5 minutes.  It will be turned on as soon as it is touched again.
+        </p>
+        </div>
+   </div>
+	<div class="aui-hr aui-clearfix"></div>
+     <div class="aui-card-list">
+
+        <div class="aui-card-list-content item-text-wrap">
+          <p>
+          <h2>September 27, 2014</h2>
+        </p>
+        <p>
+          NEPVIEWER web portal has been launched.  It is fully synchronized with Microview web monitoring system built-in the BDG-256, and allows users to monitor NEP micro inverter systems at anytime and anywhere.  It supports IE 9.0 or later, Firefox web browsers, iOS (iPhone and iPad) and Android operating systems.
+        </p>
+        </div>
+    </div>
+    </section>
+
+
+</body>
+</html>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+
+    apiready = function(){
+        api.parseTapmode();
+
+        //  window.addEventListener("orientationchange", function() {
+        //     api.setFrameAttr({
+        //         name: 'page2',
+        //         bounces: true
+        //     });
+
+        //     // api.closeFrameGroup({
+        //     //     name: 'group'
+        //     // });
+        //     // setTimeout(function() {
+        //     //     openFrameGroup();
+        //     // }, 1000);
+
+        // })
+
+    }
+    function openFile(title,file,type)
+    {
+
+      var pageparam={title:escape(title),file:file,type:type};
+      // var pageparam={title:"aaaaa",file:"bbbbb",type:"ccccS"};
+      // alert(JSON.stringify(pageparam));
+      // openWin('view',JSON.stringify(pageparam));
+      // openWin('view',pageparam);
+      api.openWin({
+          name: 'view_win',
+          url: 'view_win.html',
+          scaleEnabled:true,
+          pageParam: pageparam
+      });
+    }
+
+    function openPdf(title,file){
+      // var pdfReader = api.require('pdfReader');
+      // var url='http://nep.nepviewer.com/pv_manager/files/' + file;
+
+      // pdfReader.open({
+      //     path: url,
+      //     hidden:{
+      //       print: true,
+      //       export: true,
+      //       bookmark: true,
+      //       email: true
+      //     },
+
+      // });
+      var pageparam={title:escape(title),file:file};
+      api.openWin({
+          name: 'pdf_win',
+          url: 'pdf_win.html',
+          scaleEnabled:true,
+          slidBackEnabled:false,
+          pageParam: pageparam
+      });
+    }
+
+    function openVideo(title,file)
+    {
+      // var url='http://nep.nepviewer.com/pv_manager/files/' + file;
+      // var url = 'http://192.168.0.120:8888/northernep/nepviewer/pv_manager/files/'+file;
+      var pageparam={title:escape(title),file:'file='+file+'&name='+title};
+      api.openWin({
+          name: 'view_win',
+          url: 'view_win.html',
+          scaleEnabled:true,
+          slidBackEnabled:false,
+          pageParam: pageparam
+      });
+      // var videoPlayer = api.require('videoPlayer');
+
+
+
+    }
+</script>

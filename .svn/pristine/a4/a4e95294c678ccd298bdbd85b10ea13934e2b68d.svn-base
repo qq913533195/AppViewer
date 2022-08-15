@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+
+    <style type="text/css" >
+       .iconfont {
+
+          /* font-size: 16px; */
+          font-size: 1.2rem;
+
+        }
+    </style>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" id="aui-header">
+        <a class="aui-btn aui-pull-left" tapmode onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title"></div>
+    </header>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");   
+    var frames = [];
+    var index,preindex;
+   
+    apiready = function(){       
+        api.parseTapmode();      
+
+        setTitle(localization.registe);
+     
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var frame_y=headerPos.h;
+        var frame_h=api.winHeight-headerPos.h-60;
+        openFrame('registe',false,0,frame_y,'auto',frame_h,{});
+        
+        
+    };
+    
+
+</script>
+</html>

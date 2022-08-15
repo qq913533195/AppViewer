@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-cerulean.min.css" >
+    <link rel="stylesheet" type="text/css" href="../css/charisma-app.css">
+    <style type="text/css" >
+       .iconfont {
+          /* font-size: 16px; */
+          font-size: 1.2rem;
+        }
+        input.error{
+            border: 1px dotted red;
+        }
+        label.error{     
+            background-repeat:no-repeat;
+            padding-left:18px;
+            color: red;
+        }
+		.radio-inline input[type="radio"]{
+			margin-left: 10px;
+			position: static;
+		}
+		.login-box .btn  {
+            margin-top:0px;
+            width: auto;
+		}
+    </style>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" id="aui-header">
+        <a class="aui-btn aui-pull-left" tapmode onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title"></div>
+    </header>
+
+    <div class="ch-container">
+		<div class="row">
+				
+		<div class="row">
+				<div class="col-md-12 center login-header">
+                    <h2>
+                        <span id="title"></span>
+                    </h2>
+				</div>
+				<!--/span-->
+		</div><!--/row-->
+
+		<div class="row">
+            <div class="well col-md-6 center login-box">
+                <div class="alert alert-info">
+                    <span id="alert_info"></span>
+                </div>
+                <form   style="text-align: left;" id="form1" name="form1" >
+                    <fieldset>			         
+
+                        <div class="form-group">
+                            <label class="control-label "  for="Email">
+                                <span id="Email_Name"></span>
+                            </label>
+                            <input type="email" class="form-control" id="Email" name="Email" >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label "  ></label>
+                            <button type="submit" name="submit" id="submit"  class="btn btn-primary"></button>
+                        </div> 
+
+                    </fieldset>
+
+                </form>
+            </div>
+				<!--/span-->
+		</div><!--/row-->
+    </div><!--/fluid-row-->
+
+</div><!--/.fluid-container-->
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="../js/jquery.blockUI.min.js"></script>
+<script type="text/javascript" src="../js/validate/jquery.validate.js"></script>
+<script type="text/javascript" src="../js/validate/jquery.form.js"></script>
+<script type="text/javascript">
+    var localization = $api.getStorage("localization");   
+    var frames = [];
+    var index,preindex;
+   
+    apiready = function(){       
+        api.parseTapmode();      
+
+        setTitle(localization.forget_password);
+     
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var frame_y=headerPos.h;
+        var frame_h=api.winHeight-headerPos.h-60;
+        openFrame('forget',false,0,frame_y,'auto',frame_h,{});
+        
+        
+    };
+    
+
+</script>
+</html>

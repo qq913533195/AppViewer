@@ -1,0 +1,9 @@
+{
+	"oPaginate": {					
+			"sPrevious": "ページ",
+			"sNext": "次へ"					
+			},
+		"sLengthMenu": "表示件数 _MENU_ 件",				
+		"sSearch": "検索:",
+		"sInfo": "_START_エントリーの_END_から_TOTAL_までを表示"
+}

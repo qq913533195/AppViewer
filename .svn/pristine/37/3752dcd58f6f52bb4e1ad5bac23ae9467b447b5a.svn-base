@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+	 <style type="text/css">
+    body {
+
+       background:  url(../image/bg1.png) no-repeat fixed ;
+       background-size: 100%;
+    }
+    .container{
+      padding: 0.5rem !important;
+      text-align: center;
+      width: 100%;
+
+     }
+
+    .aui-list.aui-form-list .aui-list-item:active {
+      background-color: transparent;
+    }
+
+    .aui-list .aui-list-item i.aui-iconfont
+    {
+      color: #ffffff;
+    }
+    .aui-list-item-input .aui-input
+     {
+        color: #fff;
+    }
+    @media screen and (-webkit-min-device-pixel-ratio:1.5) {
+      .aui-list {
+        border: none;
+        background: none;
+
+      }
+      .aui-list .aui-list-item {
+        border-bottom: 1px solid #0090d4;
+        background: none;
+        height: 60px;
+
+      }
+      .aui-list .aui-list-item:last-child {
+        border-bottom: 1px solid #0090d4;
+      }
+
+    }
+     .aui-btn-info {
+            color: #ffffff !important;
+            background-color: #0073d4!important;
+      }
+
+   ul li input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff;
+
+  }
+    ul li input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #fff;
+  }
+   ul li input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #fff;
+  }
+   ul li input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #fff;
+  }
+
+	</style>
+
+</head>
+<body>
+  <div class="container" >
+
+    <section class="aui-content ">
+        <ul class="aui-list aui-form-list " style="margin-top: 8.3rem;">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner ">
+                    <div class="aui-list-item-label-icon ">
+                        <i class="aui-iconfont aui-icon-mobile"></i>
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input class="aui-input" type="email"  placeholder="email" id="email" value="">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner ">
+                    <div class="aui-list-item-label-icon">
+                       <i class="aui-iconfont aui-icon-lock"></i>
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input class="aui-input" type="password"  placeholder="password" id="password" value="">
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+        <div class="aui-btn aui-btn-block aui-btn-info  " style="margin-top: 1rem;" id="submit_login" tapmode onclick="loginIn()">Submit</div>
+        <div class="aui-text-white aui-margin-t-5 aui-margin-r-5 aui-text-right " id="registe" tapmode onclick="registe()">Registe</div>
+        <a href="#" onclick="forgetpassword()"><span id="Forget_Password">Forget Password</span></a>
+    </section>
+
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-toast.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<!-- <script type="text/javascript" src="../language/cn.js"></script> -->
+<script type="text/javascript">
+
+    apiready = function(){
+        api.parseTapmode();
+        var localization = $api.getStorage("localization");
+        // alert(localization)
+        if(!localization)
+        {
+
+          initLang(function(ret,err){
+              var localization = $api.getStorage("localization");
+              if(localization && localization.submit_login){
+                $api.html($api.byId('submit_login'),localization.submit_login);
+                $api.html($api.byId('registe'),localization.registe);
+              }
+              else {
+                $api.html($api.byId('submit_login'),'Submit');
+                $api.html($api.byId('registe'),'Registe');
+              }
+          });
+        }
+        else
+        {
+           if(localization && localization.submit_login){
+            $api.html($api.byId('submit_login'),localization.submit_login)
+            $api.html($api.byId('registe'),localization.registe);
+           }              
+            else {
+              $api.html($api.byId('submit_login'),'Submit');
+              $api.html($api.byId('registe'),'Registe');
+            }
+
+        }
+
+        // loadJson();
+    };
+    var toast = new auiToast();
+    function loginIn()
+    {
+        var email = $api.val($api.byId('email')),
+            password = $api.val($api.byId('password'));
+
+
+        if (!$api.trim(email)) {
+            api.toast({
+              msg: 'please input email!',
+              duration: 1000,
+              location: 'middle'
+          });
+          return;
+        }
+        if (!$api.trim(password)) {
+            api.toast({
+              msg: 'please input password!',
+              duration: 1000,
+              location: 'middle'
+          });
+          return;
+        }
+        var params = {email:email,password:password};
+
+        var url=$api.getStorage('url')+'login';
+        // alert(url);
+
+        ajaxUpload(url,{values:params},function(ret,err){
+            // alert(JSON.stringify(ret));
+            if(ret.status)
+            {
+              $api.setStorage('token', ret.data.token);
+              $api.setStorage('lang', ret.data.lang);
+              $api.setStorage('isopen', ret.data.isopen);
+
+              initLang(function(ret,err){
+                var localization = $api.getStorage("localization");
+                toast.success({
+                    title:localization.login_success,
+                    duration:2000
+                });
+                api.openWin({
+                  name: 'index_win',
+                  url: 'index_win.html',
+                  slidBackEnabled:false
+                });
+
+                setTimeout(function() {
+                    closeWin();
+                }, 1000);
+              });
+
+            }
+            else
+            {
+              var localization = $api.getStorage("localization");
+              api.alert({
+                  title: localization.login_failed,
+                  msg:localization.login_failed_msg
+                }, function(ret, err){
+              });
+            }
+
+            if(err){
+              var localization = $api.getStorage("localization");
+              // alert(JSON.stringify(localization));
+              api.alert({
+                  title: localization.login_failed,
+                  msg:localization.login_failed_msg
+              }, function(ret, err){
+                  if( ret ){
+                    // openWin("error",{title:"网络错误,请稍后重试"});
+                  }else{
+
+                  }
+              });
+            }
+        })
+    }
+
+     function getId(){
+        jpush.getRegistrationId(function(ret, err){
+            var registrationId = ret.id;
+            // alert(registrationId);
+            $api.setStorage('RegId', registrationId);
+        });
+    }
+
+    function registe() {
+      api.openWin({
+          name: 'registe_win',
+          url: 'registe_win.html',
+          slidBackEnabled:false
+        });
+    }
+
+</script>
+</html>

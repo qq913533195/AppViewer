@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <style>
+       .aui-list .aui-list-item-media {
+           /*width: 4rem;*/
+       }
+        img.img_icon {
+            display: block;
+            margin: 0 auto;
+            width: 80px;
+            height: 80px;
+            border-radius: 5%;
+      }
+      .item-text{
+         font-size: 0.7rem;
+        color: #757575;
+      }
+        .item-text-nowrap  {
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            word-break: break-all; /* 追加这一行代码 */
+        }
+        /* .item-text-wrap p {
+            word-wrap: break-word;
+            word-break: normal;
+        }*/
+        .more{
+            margin: 15px;
+            color:gray;
+            font-size: 0.7rem;
+        }
+        .aui-padded-l-20 {
+            padding-left: 1.1rem !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="aui-searchbar" id="search">
+        <div class="aui-searchbar-input aui-border-radius">
+            <i class="aui-iconfont aui-icon-search"></i>
+            <input type="search" placeholder="" id="search-input">
+            <div class="aui-searchbar-clear-btn">
+                <i class="aui-iconfont aui-icon-close"></i>
+            </div>
+        </div>
+        <div class="aui-searchbar-btn" tapmode id="label_btn_cancel"></div>
+    </div>
+
+     <section class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-media-list">
+
+        </ul>
+        <!-- <div id="more" class="more aui-text-center aui-hide" onclick="loadData(function(data){})"></div> -->
+        <input id="page" type="hidden" name="page" value="1">
+    </section>
+
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-search.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/pv.js"></script>
+<!-- <script type="text/javascript" src="../language/cn.js"></script> -->
+<script type="text/javascript">
+    var url=$api.getStorage('url')+'pvlist';
+    var params = new Object();
+    var keywords='';
+    var localization = $api.getStorage("localization");
+    var page = 1;
+    apiready = function(){
+        api.parseTapmode();
+
+        // initSearchBar();
+       // alert(JSON.stringify(localization));
+        $api.html($api.byId('label_btn_cancel'), localization.cancel);
+        // $api.html($api.byId('more'), localization.more);
+
+        loadData(function(data){});
+        api.addEventListener({
+            name: 'searchkeywords'
+        }, function(ret, err) {
+            keywords=ret.value.keywords;
+            $api.val($api.byId('page'), 1);
+            loadData(function(){});
+
+        });
+        pullRefresh();
+
+        api.addEventListener({
+            name:'scrolltobottom',
+        },function(ret,err){
+            loadData(function(data){});
+        });
+
+
+        api.addEventListener({
+            name: 'refresh'
+        }, function(ret, err) {
+            $api.val($api.byId('page'), 1);
+            loadData(function(data){});
+        });
+
+    }
+    function loadData(callback){
+
+        // var usertype=8;
+        // var swhere="param_";
+        // var url=$api.getStorage('url')+'pvlist_page/'+email+'/'+usertype+'/'+swhere;
+
+        // var url=$api.getStorage('url')+'pvlist/';
+        // alert(url);
+        // var swhere="param_"+$api.val($api.byId('search-input'));
+
+        params.keywords=keywords;
+        params.page = $api.val($api.byId('page'));
+        // var params={email:encodeURIComponent('fanw@northernep.com.cn'),UserType:8,strwhere:swhere,page:page} ;
+        // alert(JSON.stringify(params));
+        ajaxRequest(url,params,function(ret,err){
+            if(ret.status == 1)
+            {
+                createPvList(ret.data,function(data){
+                    callback(data);
+                });
+            }else {
+                api.openWin({
+                    name: 'login_win',
+                    url: 'login_win.html',
+                    slidBackEnabled:false
+                });
+                setTimeout(function() {
+                    closeWin();
+                }, 1000);
+            }
+
+
+
+        })
+
+    }
+</script>

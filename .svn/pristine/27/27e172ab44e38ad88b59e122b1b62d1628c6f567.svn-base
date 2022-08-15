@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-slide.css" />
+    <style type="text/css">
+        body{
+          background: #f0f0f0;
+          height: 399px;
+        }
+        .aui-slide-wrap .aui-slide-node
+        {
+          background: #f0f0f0;
+        }
+        #aui-slide{
+          height: 420px;
+        }
+    </style>
+</head>
+<body >
+  <div id="aui-slide">
+    <div class="aui-slide-wrap" ></div>
+
+    <div class="aui-slide-page-wrap"><!--分页容器--></div>
+  </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/aui-slide.js"></script>
+<script type="text/javascript" src="../script/jquery.min.js"></script>
+<script type="text/javascript" src="../script/highcharts.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+
+
+<script type="text/javascript">
+   var localization = $api.getStorage("localization");
+    apiready = function () {
+        // alert(JSON.stringify(api.frameHeight));
+        var gateways=unescape(api.pageParam.gateways);
+        // alert(gateways);
+        var gateway_arr=gateways.split(",");
+        var number=gateway_arr.length;
+        var str='';
+        // alert(number);
+        for(var i=0;i<number;i++)
+        {
+            str+='<div class="aui-slide-node " id="detailchartcontainer_'+gateway_arr[i]+'" > </div>';
+            // loadData(gateway_arr[i],function(){});
+        }
+        // alert(str);
+        $api.html($api.dom(".aui-slide-wrap"), str);
+
+        initslide();
+
+        for(var i=0;i<number;i++)
+        {
+            loadData(gateway_arr[i],function(){});
+        }
+    }
+
+    function initslide()
+    {
+         var slide = new auiSlide({
+            container:document.getElementById("aui-slide"),
+            // "width":300,
+            "height":api.frameHeight,
+            "speed":500,
+            "autoPlay": 0, //自动播放
+            "loop":false,
+            "pageShow":true,
+            "pageStyle":'line',
+            'dotPosition':'center',
+            'currentPage':currentFun
+        })
+
+    }
+    function currentFun(index) {
+            // alert(index);
+    }
+    function loadData(sn,callback){
+
+        var url=$api.getStorage('url')+'detail/'+sn+"/0";
+        var params={} ;
+
+        ajaxRequest(url,params,function(result,err){
+            // alert(JSON.stringify(result));
+            var data=result;
+            var chartSeries=[{"name": localization.power, "data": data}] ;
+
+            $('#detailchartcontainer_'+sn).highcharts({
+                chart: {
+
+                    type: 'line',
+                    backgroundColor: '#f0f0f0',
+                    height:api.frameHeight-20
+                },
+                plotOptions: {
+                    series: {
+                        color: '#64b12c'
+                    }
+                },
+                title: {
+                  text: localization.current_report+ '('+ localization.sn + ':'+sn+') ',
+                  style:{
+                    fontSize: "14px" ,
+                    fontWeight: 'bold'
+                  }
+                },
+                subtitle:{
+                  text: localization.current_y_title,
+                  style:{
+                    fontSize: "12px" ,
+
+                  },
+                  align:'left'
+                },
+                xAxis: {
+                  type: 'datetime',
+                  maxZoom:1800000, /*15mins*/
+                  labels:{
+                    step:1
+                  },
+                  dateTimeLabelFormats: {
+                        // millisecond: '%H:%M',
+                        // second: '%H:%M',
+                        // minute: '%H:%M',
+                        // hour: '%H:%M',
+                        day: '%m.%d',
+                        // month: '%H:%M',
+                        // year: '%H:%M'
+                    },
+                  tickPixelInterval:50,
+                  // gridLineColor: '#197F07',
+                  gridLineWidth: 1,
+                  lineWidth: 1,
+                  tickLength: 0
+                },
+                yAxis: {
+                  title:{
+                    enabled:false
+                  },
+                  // title: {
+                  //   text: 'Power (W)',
+                  //   margin: 5 ,
+
+                  // },
+                  tickPixelInterval:20,
+                  lineWidth: 1
+
+                },
+
+                credits: {
+                  enabled: false
+                },
+                legend: {
+                  enabled: false
+                },
+                series: chartSeries
+              });
+
+        })
+    }
+</script>
+</html>

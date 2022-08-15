@@ -1,0 +1,62 @@
+body{
+    background-color: #f0f0f0;
+}
+.aui-list {
+    background-color: #f0f0f0;
+   
+}
+#classify {
+    color: #ffffff !important;
+}        
+.aui-list .aui-list-item-title
+{
+    color:#888888;
+    font-size: 0.6rem;
+}
+.aui-list .aui-list-item-right{
+  color:#64b12c;
+  font-size:0.9rem;
+  /*font-weight: bold;*/
+}
+.aui-grid
+{
+    background-color: #f0f0f0;
+}
+.grid-title
+{
+    color:#888888; 
+}
+.aui-grid [class*=aui-col-]
+{
+    padding: 0;
+}
+small{
+    font-size: 10px;
+}
+.aui-list .font_tips{ 
+    color:#888888;          
+    font-size: 0.8rem;
+  /*font-weight: bold;*/
+}
+.aui-card-list {    
+    margin-bottom: 0.2rem;
+    background: #f0f0f0;
+}
+.aui-card-list-user-avatar
+{
+    margin-right: 0;
+}
+.grid-font_big{
+    color:#64b12c;
+    font-size:0.9rem;
+}
+.grid-font_small{
+    color:#64b12c;
+    font-size:0.6rem;
+}
+
+.aui-list .aui-list-item-media
+{
+    width: 2rem;
+    padding-right: 0;
+}
